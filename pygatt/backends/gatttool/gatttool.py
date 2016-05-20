@@ -347,7 +347,7 @@ class GATTToolBackend(BLEBackend):
             log.info('Sent cmd=%s', cmd)
 
     @at_most_one_device
-    def char_read(self, uuid):
+    def char_read(self, uuid, timeout=1):
         """
         Reads a Characteristic by uuid.
         :param uuid: UUID of Characteristic to read.
@@ -357,7 +357,7 @@ class GATTToolBackend(BLEBackend):
         """
         with self._connection_lock:
             self._con.sendline('char-read-uuid %s' % uuid)
-            self._expect('value: .*? \r')
+            self._expect('value: .*? \r', timeout)
 
             rval = self._con.after.split()[1:]
 
