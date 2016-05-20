@@ -34,6 +34,10 @@ class GATTToolBLEDevice(BLEDevice):
         self._backend.bond(self, *args, **kwargs)
 
     @connection_required
+    def set_mtu(self, mtu, *args, **kwargs):
+        return self._backend.set_mtu(self, mtu, *args, **kwargs)
+
+    @connection_required
     def char_read(self, uuid, *args, **kwargs):
         return self._backend.char_read(self, uuid, *args, **kwargs)
 

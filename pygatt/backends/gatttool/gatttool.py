@@ -192,6 +192,14 @@ class GATTToolBackend(BLEBackend):
         self._connected_device = GATTToolBLEDevice(address, self)
         return self._connected_device
 
+    @at_most_one_device
+    def set_mtu(self, mtu):
+        """Exchange MTU for GATT/ATT
+        """
+        log.info('MTU')
+        self._con.sendline('mtu %s' % mtu)
+        self._con.expect('MTU was exchanged successfully:', timeout=1)
+
     def clear_bond(self, address=None):
         """Use the 'bluetoothctl' program to erase a stored BLE bond.
         """
