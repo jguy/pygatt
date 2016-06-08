@@ -198,7 +198,13 @@ class GATTToolBackend(BLEBackend):
         """
         log.info('MTU')
         self._con.sendline('mtu %s' % mtu)
-        self._con.expect('MTU was exchanged successfully:', timeout=1)
+        try:
+            self._con.expect(b'MTU was exchanged successfully: %s' % mtu,
+                             timeout=1)
+        except pexpect.TIMEOUT:
+            log.error("Unable to set MTU size to %s", mtu)
+        else:
+            log.info("Set MTU size to %s", mtu)
 
     def clear_bond(self, address=None):
         """Use the 'bluetoothctl' program to erase a stored BLE bond.
